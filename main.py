@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-def resize(input_folder, output_folder, scale_factor):
+def resize(input_folder, output_folder, scale_factor=10):
     os.makedirs(output_folder, exist_ok=True)
     valid_extensions = (".png", ".jpg", ".jpeg")
 
@@ -37,13 +37,31 @@ def rename(folder):
     
     print("Done renaming!")
 
-# For resizing
-input_folder = "input"
-output_folder = "ex"
-scale_factor = 10 
-resize(input_folder, output_folder, scale_factor)
-# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+def crop(folder):
+    valid_extensions = (".png", ".jpg", ".jpeg")
 
-# For renaming
+    for filename in os.listdir(folder):
+        if filename.lower().endswith(valid_extensions):
+            image_path = os.path.join(folder, filename)
+            img = Image.open(image_path).convert("RGBA")
+
+            pixels = img.getchannel("A") 
+            bbox = pixels.getbbox()
+
+            cropped = img.crop(bbox)
+            cropped.save(image_path)
+            print(f"Cropped: {image_path}")
+
+# --- For resizing and cropping---
+input_folder = input("Name of input folder: ")
+output_folder = input("Name of output folder: ")
+resize(input_folder, output_folder)
+crop(output_folder)
+
+# --- For renaming ----
 # folder = input("Input name of folder: ")
 # rename(folder)
+
+# --- For virtual environment ---
+# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
