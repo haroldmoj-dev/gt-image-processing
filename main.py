@@ -18,9 +18,9 @@ def resize(input_folder, output_folder, scale_factor=10):
 
             resized.save(output_path)
             os.remove(input_path)
-            print(f"Resized and deleted: {filename}\n")
+            print(f"Resized and deleted: {filename}")
 
-    print("Done resizing!")
+    print("Done resizing!\n")
 
 def rename(folder):
     valid_extensions = (".png", ".jpg", ".jpeg")
@@ -35,7 +35,7 @@ def rename(folder):
             os.rename(old_path, new_path)
             print(f"Renamed: {filename}")
     
-    print("Done renaming!")
+    print("Done renaming!\n")
 
 def crop(folder):
     valid_extensions = (".png", ".jpg", ".jpeg")
@@ -47,10 +47,16 @@ def crop(folder):
 
             pixels = img.getchannel("A") 
             bbox = pixels.getbbox()
+            
+            if bbox == (0, 0, img.width, img.height):
+                print(f"Skipped cropping: {filename}")
+                continue
 
             cropped = img.crop(bbox)
             cropped.save(image_path)
-            print(f"Cropped: {image_path}")
+            print(f"Cropped: {filename}")
+    
+    print("Done cropping!\n")
 
 # --- For resizing and cropping---
 input_folder = input("Name of input folder: ")
