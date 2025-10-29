@@ -4,6 +4,7 @@ from PIL import Image
 def resize(input_folder, output_folder, scale_factor=10):
     os.makedirs(output_folder, exist_ok=True)
     valid_extensions = (".png", ".jpg", ".jpeg")
+    cnt = 0
 
     for filename in os.listdir(input_folder):
         if filename.lower().endswith(valid_extensions):
@@ -19,8 +20,9 @@ def resize(input_folder, output_folder, scale_factor=10):
             resized.save(output_path)
             os.remove(input_path)
             print(f"Resized and deleted: {filename}")
+            cnt = cnt + 1
 
-    print("Done resizing!\n")
+    print(f"Done resizing {cnt} images!\n")
 
 def rename(folder):
     valid_extensions = (".png", ".jpg", ".jpeg")
@@ -39,6 +41,7 @@ def rename(folder):
 
 def crop(folder):
     valid_extensions = (".png", ".jpg", ".jpeg")
+    cnt = 0
 
     for filename in os.listdir(folder):
         if filename.lower().endswith(valid_extensions):
@@ -55,8 +58,9 @@ def crop(folder):
             cropped = img.crop(bbox)
             cropped.save(image_path)
             print(f"Cropped: {filename}")
+            cnt = cnt + 1
     
-    print("Done cropping!\n")
+    print(f"Done cropping {cnt} images!\n")
 
 # --- For resizing and cropping---
 input_folder = input("Name of input folder: ")
