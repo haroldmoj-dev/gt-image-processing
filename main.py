@@ -57,37 +57,17 @@ def crop(input_folder, output_folder):
     
     print(f"Done cropping {cnt} images!")
 
-def rename(folder):
-    valid_extensions = (".png", ".jpg", ".jpeg")
-
-    for filename in os.listdir(folder):
-        if filename.lower().endswith(valid_extensions):
-            new_filename = filename.replace("1", "_1")
-
-            old_path = os.path.join(folder, filename)
-            new_path = os.path.join(folder, new_filename)
-
-            os.rename(old_path, new_path)
-            print(f"Renamed: {filename}")
-    
-    print("Done renaming!\n")
-
-# --- For resizing and cropping---
 input_folder = "input"
 output_folder = ""
 
 user_input = input("Is the weapon myth? [Y/N]: ")
-if user_input in {"Y", "y"}:
+if user_input.lower() in {"y", "yes"}:
     output_folder = "./images/ex_myth"
 else:
     output_folder = "./images/ex"
 
 resize(input_folder)
 crop(input_folder, output_folder)
-
-# --- For renaming ----
-# folder = input("Input name of folder: ")
-# rename(folder)
 
 # --- For virtual environment ---
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
